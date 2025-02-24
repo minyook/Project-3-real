@@ -1,0 +1,192 @@
+/* Reset CSS */
+@import url(/css/reset.css);
+
+/* Ownglyph_ParkDaHyun 폰트 적용 */
+@font-face {
+    font-family: 'Ownglyph_ParkDaHyun';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 전체 폰트 적용 */
+body, * {
+    font-family: 'Ownglyph_ParkDaHyun', sans-serif !important;
+}
+
+/* 전체 헤더 스타일 */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #6ae2e2;
+    padding: 15px 20px;
+    color: white;
+    height: 70px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 로고 스타일 */
+header img {
+    height: 100px;
+}
+
+/* 네비게이션 바 스타일 */
+.nav {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-item {
+    margin: 0 15px;
+}
+
+.nav-link {
+    color: black;
+    text-decoration: none;
+    font-size: 30px;
+    padding: 10px 15px;
+    transition: color 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+    color: #4CAF50;
+}
+
+/* 네비게이션 버튼 스타일 */
+.nav-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.nav-buttons button {
+    padding: 15px 20px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 19px;
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-buttons button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+}
+
+.nav-buttons button:active {
+    transform: scale(0.95);
+}
+
+/* 반응형 디자인 (모바일) */
+@media screen and (max-width: 768px) {
+    header {
+        flex-direction: column;
+        height: auto;
+        padding: 10px;
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    .nav-buttons {
+        margin-top: 10px;
+    }
+
+    .nav-item {
+        margin: 5px 0;
+    }
+}
+
+/* 배경 이미지 */
+.container {
+    position: relative;
+    width: 100%;
+    height: 88vh;
+    background-image: url('/image/background.jpg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* 냉장고 이미지 중앙 정렬 유지 */
+.fridge {
+    position: absolute;
+    top: 42%;
+    left: 47%;
+    transform: translate(-50%, -50%);
+    width: 550px; /* 크기 조절 */
+    opacity: 0; /* 초기에 숨김 */
+}
+
+/* 애니메이션이 끝난 후에도 정중앙 유지 */
+.fridge.animate__animated {
+    animation-delay: 0.2s;
+    animation-fill-mode: both;
+    opacity: 1;
+}
+
+.fridge.animate__bounceIn {
+    transform: translate(-50%, -50%) !important;
+}
+
+/* 텍스트 타이핑 효과 */
+.text-right {
+    position: absolute;
+    top: 20%;
+    right: 15%;
+    font-size: 30px;
+    font-weight: bold;
+    white-space: pre-line;
+}
+
+.cursor::after {
+    content: "|";
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* 음식 이미지 위치 */
+.donut, .dango, .tteokbokki, .jeon {
+    position: absolute;
+    opacity: 0; /* 초기에 숨김 */
+}
+
+/* 음식 이미지 개별 애니메이션 딜레이 */
+.dango {
+    bottom: 15%;
+    right: 20%;
+    width: 300px;
+    animation-delay: 0.9s;
+}
+
+.tteokbokki {
+    bottom: 5%;
+    right: 5%;
+    width: 320px;
+    animation-delay: 1.1s;
+}
+
+.jeon {
+    bottom: 30%;
+    right: 5%;
+    width: 350px;
+    animation-delay: 1.3s;
+}
+
+/* 모든 이미지가 자연스럽게 나타나도록 설정 */
+.animate__animated {
+    opacity: 1;
+    animation-fill-mode: both;
+}
