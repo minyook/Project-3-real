@@ -1,0 +1,96 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+@import url('../css/reset.css');
+
+/* 전체 페이지 설정 */
+/* 전체 페이지 설정 */
+body {
+    margin: 0;
+    padding: 0;
+    background: url('../image/login화면.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* 로그인 박스 컨테이너 */
+.container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 로그인 박스 스타일 */
+.login-box {
+    background: rgba(255, 255, 255, 0.5); /* 반투명 배경 */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.38), 0 6px 6px rgba(0,0,0,0.38);
+    text-align: center;
+    width: 320px; /* 통일된 너비 */
+}
+
+/* 입력 필드 및 버튼 스타일 */
+input,
+button {
+    width: 100%; /* 가로 길이 동일 */
+    max-width: 280px; /* 최대 너비 설정 */
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 5px;
+    font-size: 16px;
+    box-sizing: border-box; /* 패딩 포함한 크기 유지 */
+}
+
+input {
+    border: 1px solid #696969;
+    background: rgba(255, 255, 255, 0.5); /* 반투명 배경 */
+}
+
+/* 버튼 스타일 */
+button {
+    width: 100%;
+    max-width: 280px;
+    padding: 12px;
+    background: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out; /* 부드러운 애니메이션 */
+}
+
+/* 마우스 올릴 때 (hover) */
+button:hover {
+    background: #45a049;
+    transform: scale(1.05); /* 버튼 살짝 확대 */
+}
+
+/* 클릭 시 (active) */
+button:active {
+    transform: scale(0.95); /* 클릭하면 살짝 줄어듦 */
+    background: #3e8e41;
+}
+
+
+/* 회원가입 링크 스타일 */
+p {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+a {
+    color: #007BFF;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
