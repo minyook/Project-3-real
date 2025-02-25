@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/like.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <title>머먹지</title>
+</head>
+<body>
+        <header>
+            <a id="animatedBox4" class="animate__animated animate__rubberBand" href="index.html"><img src="/image/logo.png" alt="logo"></a>
+            <ul class="nav justify-content-center">
+                <li id="animatedBox1" class="animate__animated nav-item">
+                    <a class="nav-link" aria-current="page" href="#">리스트 목록</a>
+                </li>
+                <li id="animatedBox2" class="animate__animated nav-item">
+                    <a class="nav-link" href="#">냉장고 재료</a>
+                </li>
+                <li id="animatedBox3" class="animate__animated nav-item">
+                    <a class="nav-link" href="like.html">찜 목록</a>
+                </li>
+            </ul>
+            <div class="nav-buttons">
+                <button id="loginBtn" onclick="location.href='login'">로그인</button>
+                <button id="signupBtn" onclick="location.href='signup'">회원가입</button>
+                <button id="mypageBtn" style="display: none;" onclick="location.href='#'">마이페이지</button>
+                <button id="logoutBtn" style="display: none;" onclick="logout()">로그아웃</button>
+            </div>
+        </header>
+
+        <div class="my-like-container">
+            <button class="toggle-btn" onclick="toggleLikedItems()">찜한 목록만 보기</button>
+            <div class="post-container">
+                <div class="like-item">
+                    <i class="fa fa-heart heart-icon">♥</i> <!-- 하트 -->
+                    <div class="recipe-title">🍔 레시피 1</div> <!-- 레시피 제목 -->
+                    <button class="recipe-button">자세히 보기</button> <!-- 버튼 -->
+                </div>
+                <div class="like-item">
+                    <i class="fa fa-heart heart-icon">♥</i>
+                    <div class="recipe-title">🍣 레시피 2</div>
+                    <button class="recipe-button">자세히 보기</button>
+                </div>
+                <div class="like-item">
+                    <i class="fa fa-heart heart-icon">♥</i>
+                    <div class="recipe-title">🥗 레시피 3</div>
+                    <button class="recipe-button">자세히 보기</button>
+                </div>
+                <div class="like-item">
+                    <i class="fa fa-heart heart-icon">♥</i>
+                    <div class="recipe-title">🍕 레시피 4</div>
+                    <button class="recipe-button">자세히 보기</button>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/like.js"></script>
+        <script src="/js/main.js"></script>
+</body>
+</html>

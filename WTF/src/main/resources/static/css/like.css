@@ -1,0 +1,109 @@
+.my-like-container {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+/* 찜 목록 컨테이너 */
+.post-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+/* 개별 찜 박스 (정사각형) */
+.like-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff; /* 흰색 배경 */
+    padding: 15px;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out, opacity 0.5s;
+    text-align: center;
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    transform: translateX(-50px);
+    animation: fadeInLeft 0.5s ease-in-out forwards;
+    position: relative;
+}
+
+/* 하트 아이콘 (크기 키우고 확실히 보이게) */
+.heart-icon {
+    font-size: 24px; /* 하트 크기 증가 */
+    cursor: pointer;
+    color: #999; /* 기본 회색 */
+    transition: color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+.heart-icon.active {
+    color: red; /* 찜한 상태 */
+    transform: scale(1.3);
+}
+
+/* 상단 70% (레시피 제목) */
+.recipe-title {
+    flex: 7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    width: 100%;
+}
+
+/* 하단 30% (버튼) */
+.recipe-button {
+    flex: 3;
+    width: 80%;
+    padding: 8px;
+    border: none;
+    border-radius: 15px;
+    background: #ff6b81;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out, background 0.3s ease-in-out;
+}
+
+.recipe-button:hover {
+    transform: scale(1.1);
+    background: #ff4757;
+}
+
+/* 애니메이션 효과 */
+@keyframes fadeInLeft {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 찜한 목록만 보기 버튼 */
+.toggle-btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 15px;
+    background: #ff6b81;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 15px;
+    transition: background 0.3s ease-in-out;
+}
+
+.toggle-btn:hover {
+    background: #ff4757;
+}

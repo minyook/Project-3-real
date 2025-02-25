@@ -54,6 +54,7 @@ header img {
 
 .nav-link:hover {
     color: #4CAF50;
+    cursor: pointer;
 }
 
 /* 네비게이션 버튼 스타일 */

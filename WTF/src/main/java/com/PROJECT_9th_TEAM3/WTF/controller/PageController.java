@@ -22,4 +22,9 @@ public class PageController {
     public String login() {
         return "login";
     }
+
+    @GetMapping("like")
+    public String like() {
+        return "like";
+    }
 }
