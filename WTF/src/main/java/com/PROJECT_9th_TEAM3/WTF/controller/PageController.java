@@ -27,4 +27,9 @@ public class PageController {
     public String like() {
         return "like";
     }
+
+    @GetMapping("recipe")
+    public String recipe() {
+        return "recipe";
+    }
 }

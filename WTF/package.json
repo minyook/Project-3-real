@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "animate.css": "^4.1.1"
+    "animate.css": "^4.1.1",
+    "tailwindcss": "^4.0.9"
   }
 }
+
+

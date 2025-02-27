@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recipe Finder</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    /* AI 검색 영역을 네비게이션 아래 전체 화면에 맞게 확장 */
+    .search-container {
+        height: calc(100vh - 60px); /* 네비게이션 높이를 제외한 전체 화면 */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+
+    .search-box {
+        width: 90%;
+        max-width: 800px;
+        height: 80vh; /* 네비게이션 제외한 화면의 80% 높이 */
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* 결과 박스 크기 조절 */
+    #recipeResults {
+        flex: 1; /* 남은 공간을 자동으로 차지 */
+        overflow-y: auto;
+        border: 1px solid #ddd;
+        padding: 15px;
+        border-radius: 8px;
+        background-color: #ffffff;
+        text-align: left;
+        margin-top: 20px;
+        white-space: pre-wrap;
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+    /* 입력창 & 버튼 */
+    .input-group {
+        flex-shrink: 0;
+    }
+</style>
+<body>
+<header>
+    <a id="animatedBox4" class="animate__animated animate__rubberBand" href="index.html"><img src="/image/logo.png" alt="logo"></a>
+    <ul class="nav justify-content-center">
+        <li id="animatedBox1" class="animate__animated nav-item">
+            <a class="nav-link" aria-current="page" href="#">리스트 목록</a>
+        </li>
+        <li id="animatedBox2" class="animate__animated nav-item">
+            <a class="nav-link" href="#">냉장고 재료</a>
+        </li>
+        <li id="animatedBox3" class="animate__animated nav-item">
+            <a class="nav-link" onclick="location.href='like'">찜 목록</a>
+        </li>
+    </ul>
+    <div class="nav-buttons">
+        <button id="loginBtn" onclick="location.href='login'">로그인</button>
+        <button id="signupBtn" onclick="location.href='signup'">회원가입</button>
+        <button id="mypageBtn" style="display: none;" onclick="location.href='#'">마이페이지</button>
+        <button id="logoutBtn" style="display: none;" onclick="logout()">로그아웃</button>
+    </div>
+</header>
+<!-- AI 검색 영역 -->
+<div class="search-container">
+    <div class="search-box">
+        <h1 class="text-2xl font-bold mb-4">🍽️ AI 레시피 검색</h1>
+        <div class="input-group">
+            <input id="ingredientInput" type="text"
+                   placeholder="재료를 입력하세요 (예: 계란, 치즈, 빵)"
+                   class="w-full p-2 border rounded-md mb-3 text-center">
+            <button onclick="getRecipes()"
+                    class="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600">
+                레시피 찾기
+            </button>
+        </div>
+        <div id="recipeResults"></div>
+    </div>
+</div>
+<script src="/js/script.js"></script>
+</body>
+</html>
