@@ -15,4 +15,12 @@ public class MemberController {
         System.out.println("MemberController.signup");
         return null;
     }
+
+    @PostMapping("login")
+    public String login(@RequestParam("memberEmail") String memberEmail,
+                        @RequestParam("memberPassword") String memberPassword) {
+
+        System.out.println("memberEmail = " + memberEmail + ", memberPassword = " + memberPassword);
+        return null;
+    }
 }
