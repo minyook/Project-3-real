@@ -34,7 +34,7 @@ function markdownToHtml(markdown) {
 
 // 🔹 **Gemini API 호출**
 async function fetchRecipesFromGemini(ingredients) {
-    const apiKey = "AIzaSyDmjUg8r7XYLydkpDUaRZJmfhOUGoxve2c";  // 🔥 Google AI Studio에서 발급한 API 키 입력
+    const apiKey = "google api key";  // 🔥 Google AI Studio에서 발급한 API 키 입력
 
     const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
 
