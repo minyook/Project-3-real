@@ -1,63 +1,108 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/like.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>머먹지</title>
+
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/like.css">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 </head>
-<body>
-        <header>
-            <a id="animatedBox4" class="animate__animated animate__rubberBand" href="/"><img src="/image/logo.png" alt="logo"></a>
-            <ul class="nav justify-content-center">
-                <li id="animatedBox1" class="animate__animated nav-item">
-                    <a class="nav-link" aria-current="page" href="#">리스트 목록</a>
-                </li>
-                <li id="animatedBox2" class="animate__animated nav-item">
-                    <a class="nav-link" href="recipe">냉장고 재료</a>
-                </li>
-                <li id="animatedBox3" class="animate__animated nav-item">
-                    <a class="nav-link" href="like">찜 목록</a>
-                </li>
-            </ul>
-            <div class="nav-buttons">
-                <button id="loginBtn" onclick="location.href='login'">로그인</button>
-                <button id="signupBtn" onclick="location.href='signup'">회원가입</button>
-                <button id="mypageBtn" style="display: none;" onclick="location.href='#'">마이페이지</button>
-                <button id="logoutBtn" style="display: none;" onclick="logout()">로그아웃</button>
-            </div>
-        </header>
+<body class="relative flex flex-col items-center">
 
-        <div class="my-like-container">
-            <button class="toggle-btn" onclick="toggleLikedItems()">찜한 목록만 보기</button>
-            <div class="post-container">
-                <div class="like-item">
-                    <i class="fa fa-heart heart-icon">♥</i> <!-- 하트 -->
-                    <div class="recipe-title">🍔 레시피 1</div> <!-- 레시피 제목 -->
-                    <button class="recipe-button">자세히 보기</button> <!-- 버튼 -->
-                </div>
-                <div class="like-item">
-                    <i class="fa fa-heart heart-icon">♥</i>
-                    <div class="recipe-title">🍣 레시피 2</div>
-                    <button class="recipe-button">자세히 보기</button>
-                </div>
-                <div class="like-item">
-                    <i class="fa fa-heart heart-icon">♥</i>
-                    <div class="recipe-title">🥗 레시피 3</div>
-                    <button class="recipe-button">자세히 보기</button>
-                </div>
-                <div class="like-item">
-                    <i class="fa fa-heart heart-icon">♥</i>
-                    <div class="recipe-title">🍕 레시피 4</div>
-                    <button class="recipe-button">자세히 보기</button>
-                </div>
-            </div>
+<!-- ✅ 네비게이션 바 (Fade In Down) -->
+<header class="w-full flex justify-between items-center px-16 py-4 text-lg text-gray-800 border-b-2 border-red-700 mb-14 animate__animated animate__fadeInDown">
+    <a href="#" class="text-2xl font-bold text-red-800 logo animate__animated animate__rubberBand">
+        <img src="/image/logo.png" alt="logo" onclick="location.href='/'"/>
+    </a>
+    <nav class="flex space-x-16 uppercase font-semibold text-red-800 text-2xl">
+        <a class="hover:animate-pulse" onclick="location.href='#'">Refrigerator</a>
+        <a class="hover:animate-pulse" onclick="location.href='like'">Like</a>
+        <a class="hover:animate-pulse" onclick="location.href='recipe'">Recipe</a>
+    </nav>
+
+    <!-- ✅ 로그인 상태 변경을 위한 버튼 그룹 -->
+    <div class="nav-buttons hidden md:flex space-x-2">
+        <button id="loginBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='login'"
+        >login
+        </button>
+        <button id="signupBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='signup'"
+        >Sign
+        </button>
+        <button id="mypageBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="location.href='#'"
+        >Mypage
+        </button>
+        <button id="logoutBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="logout()"
+        >Logout
+        </button>
+    </div>
+</header>
+
+<div class="my-like-container">
+    <button class="toggle-btn" onclick="toggleLikedItems()">찜한 목록만 보기</button>
+    <div class="post-container">
+        <div class="like-item">
+            <i class="fa fa-heart heart-icon">♥</i> <!-- 하트 -->
+            <div class="recipe-title">🍔 레시피 1</div> <!-- 레시피 제목 -->
+            <button class="recipe-button">자세히 보기</button> <!-- 버튼 -->
         </div>
+        <div class="like-item">
+            <i class="fa fa-heart heart-icon">♥</i>
+            <div class="recipe-title">🍣 레시피 2</div>
+            <button class="recipe-button">자세히 보기</button>
+        </div>
+        <div class="like-item">
+            <i class="fa fa-heart heart-icon">♥</i>
+            <div class="recipe-title">🥗 레시피 3</div>
+            <button class="recipe-button">자세히 보기</button>
+        </div>
+        <div class="like-item">
+            <i class="fa fa-heart heart-icon">♥</i>
+            <div class="recipe-title">🍕 레시피 4</div>
+            <button class="recipe-button">자세히 보기</button>
+        </div>
+        <div id="savedRecipesContainer" class="p-6 bg-white shadow-lg rounded-lg">
+            <h2 class="text-xl font-bold text-red-700">❤️ 저장된 레시피 목록</h2>
+            <ul id="recipeList" class="mt-4 space-y-4"></ul>
+        </div>
+    </div>
+</div>
 
-        <script src="/js/like.js"></script>
-        <script src="/js/main.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
+        let recipeList = document.getElementById("recipeList");
+
+        if (savedRecipes.length === 0) {
+            recipeList.innerHTML = "<p class='text-gray-500'>저장된 레시피가 없습니다.</p>";
+        } else {
+            savedRecipes.forEach(recipe => {
+                let listItem = document.createElement("li");
+                listItem.className = "p-4 bg-gray-100 rounded-lg shadow-md";
+                listItem.innerHTML = recipe;
+                recipeList.appendChild(listItem);
+            });
+        }
+    });
+</script>
+
+
+
+<script type="module" src="/js/main.js"></script>
+<script src="/js/like.js"></script>
 </body>
 </html>

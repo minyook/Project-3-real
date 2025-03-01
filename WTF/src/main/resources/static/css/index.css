@@ -74,3 +74,45 @@ body {
 .floating:nth-child(1) { animation-delay: 0s; }
 .floating:nth-child(2) { animation-delay: 0.5s; }
 .floating:nth-child(3) { animation-delay: 1s; }
+
+/* AI 검색 영역을 네비게이션 아래 전체 화면에 맞게 확장 */
+.search-container {
+    height: calc(100vh - 60px); /* 네비게이션 높이를 제외한 전체 화면 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.search-box {
+    width: 90%;
+    max-width: 800px;
+    height: 80vh; /* 네비게이션 제외한 화면의 80% 높이 */
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 결과 박스 크기 조절 */
+#recipeResults {
+    flex: 1; /* 남은 공간을 자동으로 차지 */
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    text-align: left;
+    margin-top: 20px;
+    white-space: pre-wrap;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* 입력창 & 버튼 */
+.input-group {
+    flex-shrink: 0;
+}
