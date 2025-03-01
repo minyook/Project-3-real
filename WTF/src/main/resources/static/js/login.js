@@ -29,6 +29,7 @@ window.login = function (e) {
         const errorCode = error.code;
         const errorMessage = error.message;
 
+        console.error(errorMessage);
         alert(errorMessage);
       });
 }

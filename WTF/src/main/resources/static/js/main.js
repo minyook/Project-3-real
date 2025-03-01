@@ -24,18 +24,36 @@ onAuthStateChanged(auth, (user) => {
         document.getElementById("signupBtn").style.display = "none";
         document.getElementById("mypageBtn").style.display = "block";
         document.getElementById("logoutBtn").style.display = "block";
-        document.getElementById("list1").onclick = function() {location.href = '#';};
-        document.getElementById("list2").onclick = function() {location.href = 'recipe';};
-        document.getElementById("list3").onclick = function() {location.href = 'like';};
+
+        let refrigerators = document.getElementsByClassName("refrigerator");
+        for (let i = 0; i < refrigerators.length; i++) {
+          refrigerators[i].onclick = function() {location.href = '#';};}
+
+        let recipes = document.getElementsByClassName("recipe");
+        for (let i = 0; i < recipes.length; i++) {
+          recipes[i].onclick = function() {location.href = 'recipe';};}
+
+        let likes = document.getElementsByClassName("like");
+        for (let i = 0; i < likes.length; i++) {
+          likes[i].onclick = function() {location.href = 'like';};}
     } else {
         // ❌ 로그아웃 상태
         document.getElementById("loginBtn").style.display = "block";
         document.getElementById("signupBtn").style.display = "block";
         document.getElementById("mypageBtn").style.display = "none";
         document.getElementById("logoutBtn").style.display = "none";
-        document.getElementById("list1").onclick = function() {alert("로그인 후 이용하세요.");};
-        document.getElementById("list2").onclick = function() {alert("로그인 후 이용하세요.");};
-        document.getElementById("list3").onclick = function() {alert("로그인 후 이용하세요.");};
+
+        let refrigerators = document.getElementsByClassName("refrigerator");
+                for (let i = 0; i < refrigerators.length; i++) {
+                  refrigerators[i].onclick = function() {alert("로그인 후 이용하세요.");};}
+
+                let recipes = document.getElementsByClassName("recipe");
+                for (let i = 0; i < recipes.length; i++) {
+                  recipes[i].onclick = function() {alert("로그인 후 이용하세요.");};}
+
+                let likes = document.getElementsByClassName("like");
+                for (let i = 0; i < likes.length; i++) {
+                  likes[i].onclick = function() {alert("로그인 후 이용하세요.");};}
     }
 });
 
