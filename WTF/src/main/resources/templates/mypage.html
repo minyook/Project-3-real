@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>요리 웹사이트 마이페이지</title>
+    <link rel="stylesheet" href="/css/mypage.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+</head>
+<body class="relative flex flex-col items-center">
+<!-- ✅ 네비게이션 바 (Fade In Down) -->
+<header
+        class="w-full flex justify-between items-center px-16 py-4 text-lg text-gray-800 border-b-2 border-red-700 mb-14 animate__animated animate__fadeInDown"
+>
+    <a
+            href="#"
+            class="text-2xl font-bold text-red-800 logo animate__animated animate__rubberBand"
+    >
+        <img
+                src="/image/logo.png"
+                alt="logo"
+                onclick="location.href='/'"
+        />
+    </a>
+    <nav
+            class="flex space-x-16 uppercase font-semibold text-red-800 text-2xl"
+    >
+        <a
+                class="hover:animate-pulse"
+                onclick="location.href='refrigerator.html'"
+        >Refrigerator</a
+        >
+        <a class="hover:animate-pulse" onclick="location.href='like'">Like</a>
+        <a class="hover:animate-pulse" onclick="location.href='recipe'"
+        >Recipe</a
+        >
+    </nav>
+
+    <!-- ✅ 로그인 상태 변경을 위한 버튼 그룹 -->
+    <div class="nav-buttons hidden md:flex space-x-2">
+        <button
+                id="loginBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='login'"
+        >
+            login
+        </button>
+        <button
+                id="signupBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='signup'"
+        >
+            Sign
+        </button>
+        <button
+                id="mypageBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="location.href='#'"
+        >
+            Mypage
+        </button>
+        <button
+                id="logoutBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="logout()"
+        >
+            Logout
+        </button>
+    </div>
+</header>
+
+<!-- 헤더 아래 배경 적용 -->
+<div class="main-content">
+    <div class="dashboard">
+        <!-- 프로필 섹션 -->
+        <div class="profile-section">
+            <div class="profile-header">
+                <div class="profile-pic" id="profile-pic"></div>
+                <input
+                        type="file"
+                        id="upload-profile-pic"
+                        accept="image/*"
+                        style="display: none"
+                />
+                <button id="change-pic-btn">사진 변경</button>
+                <div class="profile-info">
+                    <h2>Username</h2>
+                </div>
+            </div>
+
+            <div class="profile-actions">
+                <button class="edit-profile-btn" onclick="openPopup()">
+                    프로필 편집
+                </button>
+                <a class="add-recipe-btn" onclick="location.href='add'"
+                >레시피 추가</a
+                >
+            </div>
+        </div>
+
+        <!-- 레시피 섹션 -->
+        <div class="recipes-container">
+            <div class="recipes-section">
+                <h3>나의 레시피</h3>
+            </div>
+
+            <div class="saved-recipes-section">
+                <h3>저장된 레시피</h3>
+                <div class="recipe-card">
+                    <img src="recipe2.jpg" alt="저장된 레시피 이미지" />
+                    <p>저장된 레시피 제목</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 팝업창 오버레이 추가 -->
+<div class="popup-overlay" id="popup-overlay"></div>
+
+<!-- 팝업창 -->
+<div class="popup" id="profile-popup">
+    <span class="close-btn" id="close-popup">&times;</span>
+    <div class="popup-content">
+        <h2>회원정보 수정</h2>
+        <form id="edit-profile-form">
+            <label for="username">이름</label><br />
+            <input type="text" id="username" />
+            <br /><br />
+            <label for="userid">아이디</label><br />
+            <input type="text" id="userid" />
+            <br /><br />
+            <label for="new-password">새 비밀번호</label><br />
+            <input
+                    type="password"
+                    id="new-password"
+                    placeholder="새 비밀번호 입력"
+            />
+            <br /><br />
+            <button type="submit">정보 수정</button>
+        </form>
+    </div>
+</div>
+
+<script src="/js/mypage.js"></script>
+<script src="/js/edit_profile.js"></script>
+<script type="module" src="/js/main.js"></script>
+</body>
+</html>

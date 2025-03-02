@@ -32,4 +32,14 @@ public class PageController {
     public String recipe() {
         return "recipe";
     }
+
+    @GetMapping("mypage")
+    public String mypage() {
+        return "mypage";
+    }
+
+    @GetMapping("add")
+    public String add() {
+        return "add";
+    }
 }

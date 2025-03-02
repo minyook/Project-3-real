@@ -1,0 +1,88 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: whitesmoke;
+}
+/* Reset CSS */
+@import url(/css/reset.css);
+
+/* Ownglyph_ParkDaHyun 폰트 적용 */
+@font-face {
+    font-family: "Ownglyph_ParkDaHyun";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2")
+    format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 전체 폰트 적용 */
+body,
+* {
+    font-family: "Ownglyph_ParkDaHyun", sans-serif !important;
+    /* 배경 이미지 설정 */
+}
+body {
+    font-family: Arial, sans-serif;
+    overflow-y: auto;
+}
+.step-container {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.step-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: green;
+}
+.add-step {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+.add-step:hover {
+    background: #218838;
+}
+#save-recipe {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+#save-recipe:hover {
+    background: #0056b3;
+}
+
+.step-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+textarea {
+    width: 300px;
+    height: 80px;
+}
+.add-step {
+    height: 40px;
+    background-color: green;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}

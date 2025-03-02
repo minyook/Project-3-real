@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>레시피 추가</title>
+    <link rel="stylesheet" href="/css/add.css" />
+</head>
+<body>
+<form id="recipe-form">
+    <h2>레시피 추가</h2>
+
+    <label for="recipe-title">레시피 제목</label>
+    <input type="text" id="recipe-title" required />
+    <br /><br />
+
+    <label for="recipe-image">레시피 대표 이미지</label>
+    <input type="file" id="recipe-image" accept="image/*" required />
+    <br /><br />
+
+    <h3>요리 순서</h3>
+    <div id="recipe-steps">
+        <div class="recipe-step">
+            <h4>Step 1</h4>
+            <div class="step-container">
+            <textarea
+                    placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."
+            ></textarea>
+                <input type="file" accept="image/*" />
+            </div>
+        </div>
+    </div>
+    <button type="button" class="add-step">+ 순서 추가</button>
+    <br /><br />
+    <button type="button" id="save-recipe">저장</button>
+</form>
+
+<script src="/js/add.js"></script>
+</body>
+</html>

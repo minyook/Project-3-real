@@ -1,0 +1,267 @@
+/* Ownglyph_ParkDaHyun 폰트 적용 */
+@font-face {
+    font-family: "Ownglyph_ParkDaHyun";
+    src: url("https://fastly.jsdelivr.net/gh/projectnoonnu/2411-3@1.0/Ownglyph_ParkDaHyun.woff2")
+    format("woff2");
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 전체 폰트 적용 */
+body,
+* {
+    font-family: "Ownglyph_ParkDaHyun", sans-serif !important;
+}
+
+/* 배경 스타일 */
+body {
+    background-color: rgb(255, 252, 245);
+    min-height: 100vh;
+    width: 100vw;
+    font-family: "Georgia", serif;
+}
+
+/* 네비게이션바 로고 애니메이션 */
+.logo img {
+    height: 100px;
+}
+
+/* 메인 로고 애니메이션 */
+.brand-text {
+    font-size: 3rem;
+    font-weight: bold;
+    color: rgb(120, 30, 30);
+    text-transform: uppercase;
+    position: relative;
+}
+
+.dashboard {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 810px;
+    height: 1000px;
+    text-align: center;
+    overflow: auto;
+    margin: 0px auto;
+    margin-bottom: 30px;
+}
+
+.profile-pic {
+    width: 180px;
+    height: 180px;
+    background: #ddd;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    background-size: cover;
+    background-position: center;
+}
+
+.profile-info h2 {
+    font-size: 30px; /* 원하는 크기로 조절 */
+}
+
+#change-pic-btn {
+    display: block;
+    margin: 5px auto;
+    padding: 4px 8px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#change-pic-btn:hover {
+    background-color: #0056b3;
+}
+
+.edit-profile-btn,
+.add-recipe-btn {
+    display: inline-block;
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 4px 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.3s;
+    text-decoration: none;
+}
+
+/* 정보 수정 버튼 스타일 */
+button[type="submit"] {
+    display: block;
+    width: 20%;
+    padding: 5px 0;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.6; /* 버튼을 거의 투명하게 설정 */
+    transition: background 0.3s, transform 0.2s, opacity 0.3s;
+}
+
+/* 버튼 호버 효과 */
+button[type="submit"]:hover {
+    opacity: 1; /* 마우스를 올리면 완전히 보이도록 */
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* 버튼 클릭(활성화) 효과 */
+button[type="submit"]:active {
+    opacity: 0.5; /* 클릭할 때 살짝 더 보이게 */
+    transform: scale(0.98);
+}
+
+.profile-actions {
+    margin-bottom: 20px;
+}
+
+.edit-profile-btn:hover,
+.add-recipe-btn:hover {
+    background: #0056b3;
+}
+
+.recipes-container {
+    display: flex;
+    gap: 20px;
+}
+
+.recipes-section,
+.saved-recipes-section {
+    flex: 1;
+    background: #fff;
+    padding: 15px;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* 내부 스크롤 */
+    max-height: 1200px; /* 최대 높이 설정 (필요에 따라 조정 가능) */
+}
+
+/* 스크롤바 디자인 (선택 사항) */
+.recipes-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.recipes-section::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+}
+
+.recipe-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    margin-bottom: 10px;
+    width: 100%; /* 부모 크기를 넘지 않도록 설정 */
+    box-sizing: border-box;
+}
+
+.recipe-card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    object-fit: cover;
+}
+
+.recipe-card p {
+    flex-grow: 1;
+    margin-left: 10px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.delete-recipe-btn {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.delete-recipe-btn:hover {
+    background: #cc0000;
+}
+
+.view-recipe-btn {
+    background: #a59b8e;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.view-recipe-btn:hover {
+    background: #6b6055;
+}
+
+/* 프로필 편집 팝업 스타일 */
+.popup {
+    display: none;
+    position: fixed; /* 항상 중앙 고정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    width: 400px;
+    z-index: 1001; /* 다른 요소 위로 */
+}
+
+/* 팝업 오버레이 */
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000; /* 팝업보다 한 단계 아래 */
+}
+
+/* 팝업 닫기 버튼 스타일 */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px; /* 기존 20px → 28px로 크기 증가 */
+    font-weight: bold; /* 굵게 표시 */
+    cursor: pointer;
+    color: #333; /* 진한 색상으로 가시성 증가 */
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: #ff0000; /* 마우스 올리면 빨간색으로 변경 */
+}
+
+#edit-profile-form input {
+    padding: 4px;
+    max-width: 300px; /* 최대 너비 설정 */
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 7px;
+}
