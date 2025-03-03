@@ -61,7 +61,7 @@ onAuthStateChanged(auth, (user) => {
 window.logout = function (e) {
     auth.signOut().then(() => {
         alert("로그아웃되었습니다.");
-        location.reload(); // 페이지 새로고침
+        window.location.href = '/';
     }).catch((error) => {
         console.error("로그아웃 오류:", error);
     });
