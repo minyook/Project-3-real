@@ -1,6 +1,6 @@
 import { collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const GEMINI_API_KEY = "api key"; // 🔥 API 키 보안 유지
+const GEMINI_API_KEY = "api key 추가해주세용"; // 🔥 API 키 보안 유지
 let showOnlyLiked = false; // 🔥 현재 필터 상태 (찜한 목록만 보기 여부)
 
 // 🔹 Firestore에서 레시피 불러오기
