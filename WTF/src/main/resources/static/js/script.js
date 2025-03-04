@@ -66,7 +66,7 @@ function markdownToHtml(markdown) {
 
 // 🔹 **Gemini API 호출**
 async function fetchRecipesFromGemini(ingredients) {
-    const apiKey = "AIzaSyD6PCQKVBL3vhwHBlGh4wpUIJEjKa0HM_w";  // ❗ 여기에 API 키 직접 넣지 않도록 주의
+    const apiKey = "api key";  // ❗ 여기에 API 키 직접 넣지 않도록 주의
 
     const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
 
