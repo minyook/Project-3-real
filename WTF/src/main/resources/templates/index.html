@@ -21,9 +21,9 @@
         <img src="/image/logo.png" alt="logo" onclick="location.href='/'"/>
     </a>
     <nav class="flex space-x-16 uppercase font-semibold text-red-800 text-2xl">
-        <a class="hover:animate-pulse refrigerator">Refrigerator</a>
-        <a class="hover:animate-pulse like">Like</a>
-        <a class="hover:animate-pulse recipe">Recipe</a>
+        <a class="hover:animate-pulse refrigerator" onclick="location.href='#'">Refrigerator</a>
+        <a class="hover:animate-pulse like" onclick="location.href='like'">Like</a>
+        <a class="hover:animate-pulse recipe" onclick="location.href='recipe'">Recipe</a>
     </nav>
 
     <!-- ✅ 로그인 상태 변경을 위한 버튼 그룹 -->
@@ -67,15 +67,15 @@
 <!-- ✅ 냉장고 및 음식 이미지 섹션 (Fade In Up & Floating) -->
 <div class="flex justify-center gap-10 px-10 my-10 animate__animated animate__fadeInUp">
     <div class="text-center">
-        <img src="/image/냉장고.png" alt="Refrigerator" class="refrigerator dessert-img mx-auto floating"/>
+        <img src="/image/냉장고.png" alt="Refrigerator" class="refrigerator dessert-img mx-auto floating" onclick="location.href='#'"/>
         <p class="text-red-800 font-semibold mt-2 text-xl md:text-2xl">Refrigerator</p>
     </div>
     <div class="text-center">
-        <img src="/image/도넛.png" alt="Like" class="like dessert-img mx-auto floating"/>
+        <img src="/image/도넛.png" alt="Like" class="like dessert-img mx-auto floating" onclick="location.href='like'"/>
         <p class="text-red-800 font-semibold mt-2 text-xl md:text-2xl">Like</p>
     </div>
     <div class="text-center">
-        <img src="/image/전.png" alt="Recipe" class="recipe dessert-img mx-auto floating"/>
+        <img src="/image/전.png" alt="Recipe" class="recipe dessert-img mx-auto floating" onclick="location.href='recipe'"/>
         <p class="text-red-800 font-semibold mt-2 text-xl md:text-2xl">Recipe</p>
     </div>
 </div>

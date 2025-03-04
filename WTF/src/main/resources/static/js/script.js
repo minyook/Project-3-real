@@ -1,3 +1,6 @@
+// Firestore SDK 가져오기
+import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("searchButton");
     const saveButton = document.getElementById("saveRecipeBtn");
@@ -6,6 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     saveButton.addEventListener("click", saveRecipe);
 });
 
+// 🔹 **레시피 검색 기능**
 async function getRecipes() {
     let input = document.getElementById("ingredientInput").value.trim();
     let outputDiv = document.getElementById("recipeContent");
@@ -62,7 +66,7 @@ function markdownToHtml(markdown) {
 
 // 🔹 **Gemini API 호출**
 async function fetchRecipesFromGemini(ingredients) {
-    const apiKey = "api key";  // ❗ 여기에 API 키를 직접 넣지 마세요
+    const apiKey = "AIzaSyD6PCQKVBL3vhwHBlGh4wpUIJEjKa0HM_w";  // ❗ 여기에 API 키 직접 넣지 않도록 주의
 
     const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=${apiKey}`;
 
@@ -93,8 +97,8 @@ async function fetchRecipesFromGemini(ingredients) {
     }
 }
 
-// 🔹 **레시피 저장 기능**
-function saveRecipe() {
+// 🔹 **레시피 Firestore에 저장**
+async function saveRecipe() {
     let recipeText = document.getElementById("recipeContent").innerText;
 
     if (recipeText.trim() === "AI가 추천할 레시피가 여기에 표시됩니다.") {
@@ -102,10 +106,17 @@ function saveRecipe() {
         return;
     }
 
-    let savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
-    savedRecipes.push(recipeText);
-    localStorage.setItem("savedRecipes", JSON.stringify(savedRecipes));
+    try {
+        // Firestore "recipes" 컬렉션에 새 레시피 저장
+        await addDoc(collection(window.db, "recipes"), {
+            content: recipeText,
+            timestamp: new Date()
+        });
 
-    alert("레시피가 저장되었습니다! ❤️");
-    window.location.href = "like.html";
+        alert("레시피가 Firestore에 저장되었습니다! ❤️");
+        window.location.href = "like"; // 저장 후 이동
+    } catch (error) {
+        console.error("레시피 저장 중 오류 발생:", error);
+        alert("레시피 저장에 실패했습니다.");
+    }
 }
