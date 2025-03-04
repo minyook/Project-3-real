@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     // 🔹 저장된 레시피 불러오기 및 삭제 기능 추가
-    let recipes = JSON.parse(localStorage.getItem("recipes")) || [];
+//    let recipes = JSON.parse(localStorage.getItem("recipes")) || [];
     const recipesContainer = document.querySelector(".recipes-section");
 
     // 기존 "나의 레시피" 제목 유지
@@ -35,16 +35,27 @@ document.addEventListener("DOMContentLoaded", function () {
         // 레시피 목록 초기화 후 다시 그리기
         recipesContainer.innerHTML = "<h3>나의 레시피</h3>";
 
-        recipes.forEach((recipe, index) => {
-            const recipeCard = document.createElement("div");
-            recipeCard.classList.add("recipe-card");
-            recipeCard.innerHTML = `
-      <img src="${recipe.image}" alt="레시피 이미지">
-      <p>${recipe.title}</p>
-      <button class="view-recipe-btn" data-index="${index}">상세 보기</button>
-      <button class="delete-recipe-btn" data-index="${index}">삭제</button>
-    `;
-            recipesContainer.appendChild(recipeCard);
+        fetch(`/getRecipe`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(recipes => {
+            if (recipes.length > 0) {
+                recipes.forEach((recipe) => {
+                    const recipeCard = document.createElement("div");
+                    recipeCard.classList.add("recipe-card");
+
+                    recipeCard.innerHTML = `
+                      <p name="recipeName">${recipe}</p>
+                      <button class="view-recipe-btn" data-index="">상세 보기</button>
+                      <button class="delete-recipe-btn" data-index="">삭제</button>
+                    `;
+                    recipesContainer.appendChild(recipeCard);
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching food data:", error);
         });
 
         // 모든 삭제 버튼에 이벤트 추가

@@ -36,6 +36,18 @@ onAuthStateChanged(auth, (user) => {
         let likes = document.getElementsByClassName("like");
         for (let i = 0; i < likes.length; i++) {
           likes[i].onclick = function() {location.href = 'like';};}
+
+        let uid = user.uid;
+        localStorage.setItem('uid', uid);
+        fetch("/api/receive-uid", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ uid: uid })
+        })
+        .then(response => response.text())
+        .catch(error => console.error("Error:", error));
     } else {
         // ❌ 로그아웃 상태
         document.getElementById("loginBtn").style.display = "block";

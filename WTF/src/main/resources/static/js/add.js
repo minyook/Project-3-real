@@ -71,5 +71,5 @@ function saveRecipe(title, imageBase64, steps) {
     localStorage.setItem("recipes", JSON.stringify(recipes));
 
     alert("레시피가 저장되었습니다!");
-    window.location.href = "mypage.html"; // 저장 후 마이페이지로 이동
+    window.location.href = "mypage"; // 저장 후 마이페이지로 이동
 }

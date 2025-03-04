@@ -108,7 +108,7 @@
             <div class="saved-recipes-section">
                 <h3>저장된 레시피</h3>
                 <div class="recipe-card">
-                    <img src="recipe2.jpg" alt="저장된 레시피 이미지" />
+<!--                    <img src="recipe2.jpg" alt="저장된 레시피 이미지" />-->
                     <p>저장된 레시피 제목</p>
                 </div>
             </div>
@@ -148,5 +148,25 @@
 <script src="/js/mypage.js"></script>
 <script src="/js/edit_profile.js"></script>
 <script type="module" src="/js/main.js"></script>
+<!-- firebase 연결 -->
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
+      authDomain: "project-9th-team3-eb188.firebaseapp.com",
+      projectId: "project-9th-team3-eb188",
+      storageBucket: "project-9th-team3-eb188.firebasestorage.app",
+      messagingSenderId: "682296446694",
+      appId: "1:682296446694:web:7dcededde4a7fa18857527",
+      measurementId: "G-Z5FR7WTXTB"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+</script>
 </body>
 </html>

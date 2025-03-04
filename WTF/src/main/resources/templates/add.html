@@ -7,11 +7,11 @@
     <link rel="stylesheet" href="/css/add.css" />
 </head>
 <body>
-<form id="recipe-form">
+<form action="/createRecipe" method="POST" id="recipe-form">
     <h2>레시피 추가</h2>
 
     <label for="recipe-title">레시피 제목</label>
-    <input type="text" id="recipe-title" required />
+    <input type="text" id="recipe-title" name="recipeName" required />
     <br /><br />
 
     <label for="recipe-image">레시피 대표 이미지</label>
@@ -23,7 +23,7 @@
         <div class="recipe-step">
             <h4>Step 1</h4>
             <div class="step-container">
-            <textarea
+            <textarea name="step"
                     placeholder="예) 소고기는 기름기를 떼어내고 적당한 크기로 썰어주세요."
             ></textarea>
                 <input type="file" accept="image/*" />
@@ -32,7 +32,7 @@
     </div>
     <button type="button" class="add-step">+ 순서 추가</button>
     <br /><br />
-    <button type="button" id="save-recipe">저장</button>
+    <button type="submit" id="save-recipe">저장</button>
 </form>
 
 <script src="/js/add.js"></script>
