@@ -27,7 +27,7 @@ onAuthStateChanged(auth, (user) => {
 
         let refrigerators = document.getElementsByClassName("refrigerator");
         for (let i = 0; i < refrigerators.length; i++) {
-          refrigerators[i].onclick = function() {location.href = '#';};}
+          refrigerators[i].onclick = function() {location.href = 'refrigerator';};}
 
         let recipes = document.getElementsByClassName("recipe");
         for (let i = 0; i < recipes.length; i++) {

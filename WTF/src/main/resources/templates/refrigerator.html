@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>냉장고 재료</title>
+    <link rel="stylesheet" href="/css/refrigerator.css" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Animate.css -->
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+</head>
+
+<body class="relative flex flex-col items-center">
+<!-- ✅ 네비게이션 바 (Fade In Down) -->
+<header
+        class="w-full flex justify-between items-center px-16 py-4 text-lg text-gray-800 border-b-2 border-red-700 mb-14 animate__animated animate__fadeInDown"
+>
+    <a
+            href="#"
+            class="text-2xl font-bold text-red-800 logo animate__animated animate__rubberBand"
+    >
+        <img
+                src="/image/logo.png"
+                alt="logo"
+                onclick="location.href='/'"
+        />
+    </a>
+    <nav
+            class="flex space-x-16 uppercase font-semibold text-red-800 text-2xl"
+    >
+        <a
+                class="hover:animate-pulse"
+                onclick="location.href='refrigerator'"
+        >Refrigerator</a
+        >
+        <a class="hover:animate-pulse" onclick="location.href='like'">Like</a>
+        <a class="hover:animate-pulse" onclick="location.href='recipe'"
+        >Recipe</a
+        >
+    </nav>
+
+    <!-- ✅ 로그인 상태 변경을 위한 버튼 그룹 -->
+    <div class="nav-buttons hidden md:flex space-x-2">
+        <button
+                id="loginBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='login'"
+        >
+            login
+        </button>
+        <button
+                id="signupBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition"
+                onclick="location.href='signup'"
+        >
+            Sign
+        </button>
+        <button
+                id="mypageBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="location.href='mypage'"
+        >
+            Mypage
+        </button>
+        <button
+                id="logoutBtn"
+                class="px-3 md:px-4 py-2 bg-red-700 text-white rounded-lg hover:bg-red-700 transition none"
+                onclick="logout()"
+        >
+            Logout
+        </button>
+    </div>
+</header>
+<div class="container">
+    <!-- 왼쪽 냉장고 이미지 -->
+    <div class="refrigerator-side"></div>
+
+    <!-- 오른쪽 냉장고 대시보드 -->
+    <div class="dashboard">
+        <h2>현재 냉장고</h2>
+        <input type="text" id="ingredient-input" placeholder="재료 입력" />
+        <button id="add-ingredient-btn" onclick="addIngredient()">추가</button>
+        <div class="fridge-container">
+            <div class="fridge" id="fridge"></div>
+        </div>
+    </div>
+</div>
+<script type="module" src="/js/main.js"></script>
+<script src="/refrigerator.js"></script>
+</body>
+</html>

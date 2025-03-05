@@ -42,4 +42,9 @@ public class PageController {
     public String add() {
         return "add";
     }
+
+    @GetMapping("refrigerator")
+    public String refrigerator() {
+        return "refrigerator";
+    }
 }
