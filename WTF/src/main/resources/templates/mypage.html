@@ -13,6 +13,18 @@
             rel="stylesheet"
             href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
     />
+
+    <script>
+        fetch(`/api/setUsername`)
+            .then(response => response.text())
+            .then(data => {
+                document.getElementsByName("username").forEach(element => {
+                    element.innerText = data;
+                    element.value = data;
+                });
+            })
+            .catch(error => console.error("Error:", error));
+    </script>
 </head>
 <body class="relative flex flex-col items-center">
 <!-- ✅ 네비게이션 바 (Fade In Down) -->
@@ -85,7 +97,7 @@
                 />
                 <button id="change-pic-btn">사진 변경</button>
                 <div class="profile-info">
-                    <h2>Username</h2>
+                    <h2 name="username">${username}</h2>
                 </div>
             </div>
 
@@ -123,7 +135,7 @@
         <h2>회원정보 수정</h2>
         <form id="edit-profile-form">
             <label for="username">이름</label><br />
-            <input type="text" id="username" />
+            <input type="text" id="username" name="username" value="${username}"/>
             <br /><br />
             <!--
             <label for="userid">아이디</label><br />
