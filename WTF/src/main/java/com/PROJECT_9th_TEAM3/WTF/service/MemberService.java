@@ -12,14 +12,10 @@ public class MemberService {
     public String setUsername(String uid) throws ExecutionException, InterruptedException {
         Firestore db = FirestoreClient.getFirestore();
 
-        System.out.println(uid);
-
         DocumentReference docRef = db.collection("users").document(uid);
-        System.out.println(docRef);
         ApiFuture<DocumentSnapshot> future = docRef.get();
         DocumentSnapshot document = future.get();
 
-        System.out.println("Document data: " + document.getData());
         String username = document.getString("name");
         if (document.exists()) {
             return username;

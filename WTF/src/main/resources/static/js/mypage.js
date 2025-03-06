@@ -47,39 +47,46 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     recipeCard.innerHTML = `
                       <p name="recipeName">${recipe}</p>
-                      <button class="view-recipe-btn" data-index="">상세 보기</button>
-                      <button class="delete-recipe-btn" data-index="">삭제</button>
+                      <button class="view-recipe-btn" data-comments="${recipe}">상세 보기</button>
+                      <button class="delete-recipe-btn" data-comments="${recipe}">삭제</button>
                     `;
                     recipesContainer.appendChild(recipeCard);
                 });
             }
+
+            // 모든 삭제 버튼에 이벤트 추가
+            document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                    const data = this.getAttribute("data-comments");
+                    deleteRecipe(data);
+                });
+            });
+
+            // 모든 상세 보기 버튼에 이벤트 추가
+            document.querySelectorAll(".view-recipe-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                    const data = this.getAttribute("data-comments");
+                    showRecipeDetail(data);
+                });
+            });
         })
         .catch(error => {
-            console.error("Error fetching food data:", error);
-        });
-
-        // 모든 삭제 버튼에 이벤트 추가
-        document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
-            button.addEventListener("click", function () {
-                const index = this.getAttribute("data-index");
-                deleteRecipe(index);
-            });
-        });
-
-        // 모든 상세 보기 버튼에 이벤트 추가
-        document.querySelectorAll(".view-recipe-btn").forEach((button) => {
-            button.addEventListener("click", function () {
-                const index = this.getAttribute("data-index");
-                showRecipeDetail(index);
-            });
+            console.error("Error fetching recipe data:", error);
         });
     }
 
     // 🔹 레시피 삭제 함수
-    function deleteRecipe(index) {
-        recipes.splice(index, 1); // 배열에서 해당 인덱스의 레시피 제거
-        localStorage.setItem("recipes", JSON.stringify(recipes)); // localStorage 업데이트
-        displayRecipes(); // 화면 갱신
+    function deleteRecipe(data) {
+        fetch(`/deleteRecipe/${data}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.text())
+        .then(deletedRecipe => {
+            console.log(`삭제된 레시피명: ${deletedRecipe}`);
+        })
+        .catch(error => console.error("삭제 중 오류 발생:", error));
+
+        window.location.href = "mypage"
     }
 
     // 🔹 레시피 상세보기 함수

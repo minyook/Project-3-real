@@ -44,6 +44,20 @@ public class RecipeController {
         return recipeService.getRecipe(uid);
     }
 
+    @DeleteMapping("/deleteRecipe/{recipeName}")
+    public Map<String, String> deleteRecipe(@PathVariable String recipeName) {
+        Map<String, String> response = new HashMap<>();
+
+        String success = recipeService.deleteRecipe(uid, recipeName);
+
+        if (success.contains("Delete!")) {
+            response.put("success", "true");
+        } else {
+            response.put("success", "false");
+        }
+        return response;
+    }
+
     // 사용자 이름 셋팅
     @GetMapping("/api/setUsername")
     public ResponseEntity<String> setUsername() throws ExecutionException, InterruptedException {
@@ -55,7 +69,6 @@ public class RecipeController {
     @PostMapping("/api/receive-uid")
     public void receiveUID(@RequestBody UIDRequest request) {
         uid = request.getUid();
-        System.out.println("Received UID: " + uid);
     }
 
     static class UIDRequest {

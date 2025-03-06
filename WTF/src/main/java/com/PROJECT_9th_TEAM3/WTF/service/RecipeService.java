@@ -48,4 +48,15 @@ public class RecipeService {
         }
         return null;
     }
+
+    // 레시피 삭제
+    public String deleteRecipe(String uid,
+                               String recipeName) {
+        Firestore db = FirestoreClient.getFirestore();
+
+        db.collection("users").document(uid).collection("recipes").document(recipeName).delete();
+
+        System.out.println("Delete! " + recipeName);
+        return "Delete! " + recipeName;
+    }
 }
