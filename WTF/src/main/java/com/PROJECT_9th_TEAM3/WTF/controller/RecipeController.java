@@ -1,8 +1,9 @@
 package com.PROJECT_9th_TEAM3.WTF.controller;
 
+import com.PROJECT_9th_TEAM3.WTF.service.MemberService;
 import com.PROJECT_9th_TEAM3.WTF.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -14,11 +15,14 @@ import java.util.concurrent.ExecutionException;
 public class RecipeController {
     @Autowired
     public RecipeService recipeService;
-    private String uid;
+
+    @Autowired
+    public MemberService memberService;
+    public String uid;
 
     @PostMapping("/createRecipe")
     public String createRecipe(@RequestParam("recipeName") String recipeName,
-                             @RequestParam("step") String recipeStep)  throws InterruptedException, ExecutionException {
+                             @RequestParam("step") String recipeStep) {
 
         String[] steps = recipeStep.split(",");
         int count = 1;
@@ -38,6 +42,13 @@ public class RecipeController {
     @GetMapping("/getRecipe")
     public List<String> getRecipe() throws ExecutionException, InterruptedException {
         return recipeService.getRecipe(uid);
+    }
+
+    // 사용자 이름 셋팅
+    @GetMapping("/api/setUsername")
+    public ResponseEntity<String> setUsername() throws ExecutionException, InterruptedException {
+        String username = memberService.setUsername(uid);
+        return ResponseEntity.ok(username);
     }
 
     // uid를 가져오기위한 함수

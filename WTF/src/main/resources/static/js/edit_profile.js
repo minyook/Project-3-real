@@ -24,11 +24,11 @@ function loadProfilePic() {
 }
 
 // 🔹 기존 정보 입력 필드 & 프로필 이름 설정
-if (profileName) {
-    profileName.textContent = userData.username;
-}
-usernameInput.value = userData.username;
-useridInput.value = userData.userid;
+//if (profileName) {
+//    profileName.textContent = userData.username;
+//}
+//usernameInput.value = userData.username;
+//useridInput.value = userData.userid;
 loadProfilePic(); // 프로필 사진 로드
 
 // 🔹 사진 변경 버튼 클릭 시 파일 선택 창 열기
