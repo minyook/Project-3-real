@@ -89,11 +89,9 @@ document.addEventListener("DOMContentLoaded", function () {
         window.location.href = "mypage"
     }
 
-    // 🔹 레시피 상세보기 함수
-    function showRecipeDetail(index) {
-        const recipe = recipes[index];
 
-        // 새 창에서 레시피 상세 정보를 표시
+    // 🔹 레시피 상세보기 함수
+    function showRecipeDetail(data) {
         const recipeDetailWindow = window.open(
             "",
             "레시피 상세보기",
@@ -101,72 +99,89 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
         recipeDetailWindow.document.write(`
-    <html lang="ko">
-      <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>${recipe.title}</title>
-        <style>
-          body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-          h2 {
-            text-align: center;
-          }
-          .step {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-          }
-          .step img {
-            max-width: 200px;
-            margin-left: 20px;
-          }
-          .step-text {
-            flex: 1;
-            text-align: left;
-          }
-          ol {
-            counter-reset: step-counter;
-            list-style: none;
-            padding-left: 0;
-          }
-          ol li {
-            counter-increment: step-counter;
-            margin-bottom: 15px;
-          }
-          ol li::before {
-            content: counter(step-counter) ".   ";
-            font-weight: bold;
-            color: #000;
-          }
-        </style>
-      </head>
-      <body>
-        <h2>${recipe.title}</h2>
-        <img src="${
-            recipe.image
-        }" alt="${recipe.title}" style="max-width: 50%; height: auto;" />
-        <h3>요리 순서</h3>
-        <ol>
-        ${recipe.steps
-            .map(
-                (step) => `
-              <li class="step">
-                <div class="step-text">${step.text}</div>
-                ${step.img ? `<img src="${step.img}" alt="step image" />` : ""}
-              </li>`
-            )
-            .join("")}
-        
-        </ol>
-      </body>
-    </html>
-  `);
+        <html lang="ko">
+          <head>
+            <meta charset="UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            <title name="recipeName"></title>
+            <style>
+              body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              }
+              h2 {
+                text-align: center;
+              }
+              .step {
+                display: flex;
+                align-items: center;
+                margin-bottom: 20px;
+              }
+              .step img {
+                max-width: 200px;
+                margin-left: 20px;
+              }
+              .step-text {
+                flex: 1;
+                text-align: left;
+              }
+              ol {
+                counter-reset: step-counter;
+                list-style: none;
+                padding-left: 0;
+              }
+              ol li {
+                counter-increment: step-counter;
+                margin-bottom: 15px;
+              }
+              ol li::before {
+                content: counter(step-counter) ".   ";
+                font-weight: bold;
+                color: #000;
+              }
+            </style>
+          </head>
+          <body>
+            <h2 name="recipeName"></h2>
+            <h3>요리 순서</h3>
+            <ol id="recipe-steps"></ol>
+          </body>
+        </html>
+      `);
+
+        fetch(`/showRecipeDetail/${data}`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setTimeout(() => {
+                const recipeTitle = recipeDetailWindow.document.querySelector('[name="recipeName"]');
+
+                const stepsContainer = recipeDetailWindow.document.querySelector('#recipe-steps');
+                if (!stepsContainer) {
+                    console.error('stepsContainer not found!');
+                    return;
+                }
+
+                let stepIndex = 1;
+                while (data[`step${stepIndex}`] !== undefined) {
+                    const stepKey = `step${stepIndex}`;
+                    const li = recipeDetailWindow.document.createElement('li');
+                    li.classList.add('step');
+                    li.textContent = data[stepKey];
+
+                    stepsContainer.appendChild(li);
+                    stepIndex++;
+                }
+            }, 10);
+        })
+        .catch(error => {
+            console.error(error);
+        });
     }
 
     // 페이지 로드 시 레시피 표시

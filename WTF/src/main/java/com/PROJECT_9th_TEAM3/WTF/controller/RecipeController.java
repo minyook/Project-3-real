@@ -2,6 +2,8 @@ package com.PROJECT_9th_TEAM3.WTF.controller;
 
 import com.PROJECT_9th_TEAM3.WTF.service.MemberService;
 import com.PROJECT_9th_TEAM3.WTF.service.RecipeService;
+import com.google.cloud.firestore.DocumentSnapshot;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,7 @@ public class RecipeController {
         int count = 1;
 
         Map<String, Object> docData = new HashMap<>();
+        docData.put("name", recipeName);
         for(String step : steps) {
             docData.put("step" + count, step);
             count++;
@@ -42,6 +45,16 @@ public class RecipeController {
     @GetMapping("/getRecipe")
     public List<String> getRecipe() throws ExecutionException, InterruptedException {
         return recipeService.getRecipe(uid);
+    }
+
+    @GetMapping("/showRecipeDetail/{recipeName}")
+    public String showRecipeDetail(@PathVariable String recipeName) throws ExecutionException, InterruptedException {
+        DocumentSnapshot documentSnapshot = recipeService.showRecipeDetail(uid, recipeName);
+
+        Map<String, Object> data = documentSnapshot.getData();
+
+        Gson gson = new Gson();
+        return gson.toJson(data);
     }
 
     @DeleteMapping("/deleteRecipe/{recipeName}")

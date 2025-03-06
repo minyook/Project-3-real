@@ -59,4 +59,22 @@ public class RecipeService {
         System.out.println("Delete! " + recipeName);
         return "Delete! " + recipeName;
     }
+
+    // 상세정보 보기
+    public DocumentSnapshot showRecipeDetail(String uid,
+                                             String recipeName) throws ExecutionException, InterruptedException {
+        Firestore db = FirestoreClient.getFirestore();
+
+        DocumentReference docRef = db.collection("users").document(uid).collection("recipes").document(recipeName);
+
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        DocumentSnapshot document = future.get();
+
+        if (document.exists()) {
+            return document;
+        } else {
+            System.out.println("No such document!");
+        }
+        return null;
+    }
 }

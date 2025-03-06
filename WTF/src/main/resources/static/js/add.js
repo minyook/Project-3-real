@@ -5,7 +5,7 @@ document.querySelector(".add-step").addEventListener("click", function () {
     newStep.innerHTML = `
   <h4>Step ${stepNumber}</h4>
   <div class="step-container">
-      <textarea placeholder="예) 다음 요리 단계를 입력하세요."></textarea>
+      <textarea name="step" placeholder="예) 다음 요리 단계를 입력하세요."></textarea>
       <input type="file" accept="image/*" />
   </div>
 `;
