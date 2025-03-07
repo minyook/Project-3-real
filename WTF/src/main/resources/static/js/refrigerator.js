@@ -72,7 +72,7 @@ function setupEventListeners(userId) {
     addIngredientBtn.addEventListener("click", () => addIngredient(userId));
 }
 
-// ✅ 재료 추가 함수 (Firestore 저장)
+// ✅ 재료 추가 함수 (서버와 통신)
 async function addIngredient(userId) {
     const input = document.getElementById("ingredient-input");
     if (!input) return;
@@ -80,7 +80,9 @@ async function addIngredient(userId) {
     const ingredientName = input.value.trim();
     if (!ingredientName) return;
 
+    // Firestore에 저장하기 전에 중복 재료 확인
     try {
+
         const ingredientsRef = collection(db, `users/${userId}/ingredients`);
         const q = query(ingredientsRef, where("name", "==", ingredientName));
         const querySnapshot = await getDocs(q);
@@ -90,20 +92,29 @@ async function addIngredient(userId) {
             return;
         }
 
-        // Firestore에 재료 추가 (개별 문서로 추가)
-        await addDoc(ingredientsRef, {
-            name: ingredientName,
-            createdAt: new Date().toISOString()
+        const response = await fetch('/createIngredient', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ ingredientName, uid: userId })
         });
 
-        console.log(`✅ Firestore에 '${ingredientName}' 추가 완료!`);
-        await loadIngredients(userId); // 새로 추가된 재료를 불러와서 갱신
+        if (response.ok) {
+            console.log(`✅ 서버에 '${ingredientName}' 추가 완료!`);
+            await loadIngredients(userId); // 새로 추가된 재료를 불러와서 갱신
+        } else {
+            const errorData = await response.text();
+            console.error(`❌ 서버에 재료 추가 실패: ${response.statusText} - ${errorData}`);
+        }
     } catch (error) {
-        console.error("❌ Firestore에 재료 추가 실패:", error);
+        console.error("❌ 서버에 재료 추가 실패:", error);
     }
 
     input.value = "";
 }
+
+
 
 // ✅ Firestore에서 사용자별 재료 불러오기
 async function loadIngredients(userId) {
