@@ -28,49 +28,70 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// 🔹 저장된 레시피 불러오기
+// 🔹 레시피 불러오기 함수
 async function displayRecipes() {
     if (!window.userId) return;
 
     const recipesContainer = document.querySelector(".recipes-section");
-    recipesContainer.innerHTML = "<h3>나의 레시피</h3>";
+    recipesContainer.innerHTML = "<h3>나의 레시피</h3>";  // 레시피 목록을 초기화
 
     try {
         const response = await fetch('/getRecipe');
-        const recipes = await response.json();
+        const data = await response.json();
 
-        recipes.forEach((recipe) => {
-            const recipeCard = document.createElement("div");
-            recipeCard.classList.add("recipe-card");
+        console.log("📌 서버 응답:", data);
 
-            recipeCard.innerHTML = `
-                <p name="recipeName">${recipe}</p>
-                <button class="view-recipe-btn" data-id="${recipe}">상세 보기</button>
-                <button class="delete-recipe-btn" data-id="${recipe}">삭제</button>
-            `;
-            recipesContainer.appendChild(recipeCard);
-        });
+        if (data.success && Array.isArray(data.data)) {
+            data.data.forEach((recipe) => {
+                const recipeCard = document.createElement("div");
+                recipeCard.classList.add("recipe-card");
 
-        // 🔹 상세 보기 버튼 이벤트 추가
-        document.querySelectorAll(".view-recipe-btn").forEach((button) => {
-            button.addEventListener("click", function () {
-                const recipeId = this.getAttribute("data-id");
-                showRecipeDetail(recipeId);
+                recipeCard.innerHTML = `
+                    <p name="recipeName">${recipe}</p>
+                    <button class="view-recipe-btn" data-id="${recipe}">상세 보기</button>
+                    <button class="delete-recipe-btn" data-id="${recipe}">삭제</button>
+                `;
+                recipesContainer.appendChild(recipeCard);
             });
-        });
 
-        // 🔹 삭제 버튼 이벤트 추가
-        document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
-            button.addEventListener("click", function () {
-                const recipeId = this.getAttribute("data-id");
-                deleteRecipe(recipeId);
+            // 🔹 상세 보기 버튼 이벤트 추가
+            document.querySelectorAll(".view-recipe-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                    const recipeId = this.getAttribute("data-id");
+                    showRecipeDetail(recipeId);
+                });
             });
-        });
 
+            // 🔹 삭제 버튼 이벤트 추가
+            document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
+                button.addEventListener("click", function () {
+                    const recipeId = this.getAttribute("data-id");
+                    deleteRecipe(recipeId);
+                });
+            });
+
+        } else {
+            console.error("🚨 올바른 데이터가 아닙니다:", data);
+        }
     } catch (error) {
         console.error("❌ 레시피 불러오기 실패:", error);
     }
 }
+
+// 🔹 레시피 추가 후, 자동으로 갱신하는 방법
+window.addEventListener("load", function () {
+    if (window.userId) {
+        displayRecipes();  // 페이지 로드 시 레시피 목록을 불러옵니다.
+    }
+});
+
+// 🔹 서버에서 새로 추가된 레시피 반영
+document.getElementById("save-recipe").addEventListener("click", function () {
+    // 레시피 추가가 완료된 후, 마이페이지로 리디렉션
+    setTimeout(function () {
+        displayRecipes();  // 레시피 추가 후 페이지 갱신
+    }, 1000);  // 새 레시피 저장 후 1초 뒤에 갱신
+});
 
 // 🔹 레시피 삭제
 async function deleteRecipe(recipeId) {
@@ -96,7 +117,7 @@ function showRecipeDetail(recipeId) {
       <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title name="recipeName"></title>
+        <title>레시피 상세보기</title>
         <style>
           body {
             font-family: Arial, sans-serif;
@@ -137,51 +158,67 @@ function showRecipeDetail(recipeId) {
     </html>
   `);
 
-    fetch(`/showRecipeDetail/${recipeId}`, {
-        method: 'GET'
-    })
+    fetch(`/showRecipeDetail/${recipeId}`, { method: 'GET' })
         .then(response => response.json())
-        .then(data => {
-            console.log(data);
-            setTimeout(() => {
-                const recipeTitle = recipeDetailWindow.document.querySelector('[name="recipeName"]');
-                if (recipeTitle) recipeTitle.innerText = recipeId;
+        .then(responseData => {
+            console.log('Received data:', responseData); // 데이터 구조 확인을 위한 로그 출력
+            const data = responseData.data; // 데이터 객체 추출
 
-                const stepsContainer = recipeDetailWindow.document.querySelector('#recipe-steps');
-                if (!stepsContainer) {
-                    console.error('stepsContainer not found!');
-                    return;
-                }
+            const recipeTitle = recipeDetailWindow.document.querySelector('[name="recipeName"]');
+            if (recipeTitle) recipeTitle.innerText = data.name || recipeId;
 
-                let stepIndex = 1;
-                while (data[`step${stepIndex}`] !== undefined) {
-                    const stepKey = `step${stepIndex}`;
+            const stepsContainer = recipeDetailWindow.document.querySelector('#recipe-steps');
+            if (!stepsContainer) {
+                console.error('stepsContainer not found!');
+                return;
+            }
+
+            let stepIndex = 1;
+            while (data[`step${stepIndex}`] !== undefined) {
+                const stepKey = `step${stepIndex}`;
+                const stepText = data[stepKey];
+                if (stepText) {
                     const li = recipeDetailWindow.document.createElement('li');
                     li.classList.add('step');
-                    li.textContent = data[stepKey];
-
+                    li.textContent = stepText;
                     stepsContainer.appendChild(li);
-                    stepIndex++;
                 }
-            }, 10);
+                stepIndex++;
+            }
+
+            // 요리 단계가 없는 경우
+            if (stepsContainer.children.length === 0) {
+                const li = recipeDetailWindow.document.createElement('li');
+                li.textContent = "이 레시피에는 요리 단계가 없습니다.";
+                stepsContainer.appendChild(li);
+            }
         })
         .catch(error => {
-            console.error(error);
+            console.error("❌ 레시피 상세 보기 오류:", error);
         });
+
 }
 
 // 🔹 Firestore에서 냉장고 재료 불러오기
 async function loadSavedIngredients() {
-    if (!window.userId) return;
+    if (!window.userId) {
+        console.error("🚨 사용자 ID가 없습니다. 인증 문제일 수 있습니다.");
+        return;
+    }
 
     const ingredientsContainer = document.getElementById("savedIngredientsContainer");
     const noIngredientsMessage = document.getElementById("noIngredientsMessage");
 
     try {
+        console.log("🔎 Firestore에서 재료 불러오는 중...");
         const querySnapshot = await getDocs(collection(db, `users/${window.userId}/ingredients`));
+
+        console.log("📃 Firestore에서 가져온 문서 개수:", querySnapshot.size);
+
         ingredientsContainer.innerHTML = "";
 
         if (querySnapshot.empty) {
+            console.warn("⚠️ Firestore에 저장된 재료가 없습니다.");
             if (noIngredientsMessage) noIngredientsMessage.style.display = "block";
             return;
         }
@@ -190,6 +227,8 @@ async function loadSavedIngredients() {
 
         querySnapshot.forEach((docSnapshot) => {
             const ingredientData = docSnapshot.data();
+            console.log("🥕 불러온 재료:", ingredientData);
+
             const ingredientCard = document.createElement("div");
             ingredientCard.classList.add("recipe-card");
             ingredientCard.innerHTML = `
@@ -206,6 +245,26 @@ async function loadSavedIngredients() {
         });
     } catch (error) {
         console.error("❌ 재료 불러오기 실패:", error);
+    }
+}
+// 🔹 Firestore에서 재료 삭제
+async function deleteIngredient(ingredientId) {
+    if (!window.userId) {
+        console.error("🚨 사용자 ID가 없습니다.");
+        return;
+    }
+
+    try {
+        console.log(`🗑️ Firestore에서 재료 삭제 중... ID: ${ingredientId}`);
+
+        await deleteDoc(doc(db, `users/${window.userId}/ingredients`, ingredientId));
+
+        console.log("✅ 재료 삭제 완료:", ingredientId);
+
+        // 삭제 후 목록 다시 불러오기
+        loadSavedIngredients();
+    } catch (error) {
+        console.error("❌ 재료 삭제 실패:", error);
     }
 }
 

@@ -184,6 +184,29 @@
 <script src="/js/edit_profile.js"></script>
 <script type="module" src="/js/main.js"></script>
 
+<script>
+    // 🔹 프로필 편집 버튼 클릭 시 팝업 열기
+    document.querySelector(".edit-profile-btn").addEventListener("click", function() {
+        document.getElementById("profile-popup").style.display = "block";
+        document.getElementById("popup-overlay").style.display = "block";
+    });
+
+    // 🔹 팝업 닫기 버튼 클릭 시 팝업 닫기
+    document.getElementById("close-popup").addEventListener("click", function() {
+        document.getElementById("profile-popup").style.display = "none";
+        document.getElementById("popup-overlay").style.display = "none";
+    });
+
+    function openPopup() {
+        document.getElementById("profile-popup").style.display = "block";
+        document.getElementById("popup-overlay").style.display = "block";
+    }
+
+    function closePopup() {
+        document.getElementById("profile-popup").style.display = "none";
+        document.getElementById("popup-overlay").style.display = "none";
+    }
+</script>
 
 </body>
 </html>
