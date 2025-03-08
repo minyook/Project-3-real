@@ -58,14 +58,11 @@
 <div class="flex flex-col md:flex-row justify-between items-start w-full max-w-7xl mx-auto px-8 md:px-16 gap-16">
 
     <!-- 🚀 왼쪽 (냉장고 재료) -->
-    <div class="w-full md:w-1/4 p-6 bg-white shadow-lg rounded-lg">
+    <div class="ingredientsContainer w-full md:w-1/4 p-6 bg-white shadow-lg rounded-lg">
         <h2 class="text-xl font-bold text-red-700 mb-4 text-center">🥦 냉장고 재료</h2>
         <ul id="fridgeItems" class="space-y-2">
-            <li class="p-2 bg-gray-100 rounded-md">🍗 닭고기</li>
-            <li class="p-2 bg-gray-100 rounded-md">🥚 계란</li>
-            <li class="p-2 bg-gray-100 rounded-md">🧀 치즈</li>
-            <li class="p-2 bg-gray-100 rounded-md">🍅 토마토</li>
         </ul>
+        <p id="noIngredientsMessage" style="display: none; color: gray;">저장된 재료가 없습니다.</p>
     </div>
 
     <!-- 🎯 가운데 (AI 검색창 + 답변 부분) -->
@@ -130,5 +127,6 @@
 
 <script type="module" src="/js/main.js"></script>
 <script type="module" src="/js/script.js"></script>
+<script type="module" src="/js/recipe.js"></script>
 </body>
 </html>

@@ -54,12 +54,12 @@ public class RecipeController {
         int count = 1;
 
         Map<String, Object> docData = new HashMap<>();
-        docData.put("name", recipeName);
+        docData.put("title", recipeName);
         for (String step : steps) {
             docData.put("step" + count, step);
             count++;
         }
-        docData.put("like", "off");
+        docData.put("liked", "false");
 
         // Firestore에 레시피 저장
         recipeService.createRecipe(docData, uid, recipeName);

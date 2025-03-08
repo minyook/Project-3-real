@@ -233,7 +233,7 @@ async function loadSavedIngredients() {
             ingredientCard.classList.add("recipe-card");
             ingredientCard.innerHTML = `
                 <p>${ingredientData.name || "이름 없음"}</p>
-                <button class="delete-ingredient-btn" data-id="${docSnapshot.id}">삭제</button>
+                <button class="delete-recipe-btn" data-id="${docSnapshot.id}">삭제</button>
             `;
             ingredientsContainer.appendChild(ingredientCard);
         });
