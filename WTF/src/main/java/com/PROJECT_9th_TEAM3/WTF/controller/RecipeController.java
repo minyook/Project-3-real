@@ -50,16 +50,12 @@ public class RecipeController {
             return ResponseEntity.badRequest().body(response);
         }
 
-        String[] steps = recipeStep.split(",");
-        int count = 1;
+        recipeStep = recipeStep.replace(",", ". ");
 
         Map<String, Object> docData = new HashMap<>();
         docData.put("title", recipeName);
-        for (String step : steps) {
-            docData.put("step" + count, step);
-            count++;
-        }
-        docData.put("liked", "false");
+        docData.put("content", recipeStep);
+        docData.put("liked", false);
 
         // Firestore에 레시피 저장
         recipeService.createRecipe(docData, uid, recipeName);

@@ -153,7 +153,7 @@ function showRecipeDetail(recipeId) {
       <body>
         <h2 name="recipeName"></h2>
         <h3>요리 순서</h3>
-        <ol id="recipe-steps"></ol>
+        <div id="content" class="mt-2 max-h-[60vh] overflow-y-auto p-2 text-gray-700"></div>
       </body>
     </html>
   `);
@@ -161,36 +161,25 @@ function showRecipeDetail(recipeId) {
     fetch(`/showRecipeDetail/${recipeId}`, { method: 'GET' })
         .then(response => response.json())
         .then(responseData => {
-            console.log('Received data:', responseData); // 데이터 구조 확인을 위한 로그 출력
             const data = responseData.data; // 데이터 객체 추출
+            console.log('Received data:', data);
 
             const recipeTitle = recipeDetailWindow.document.querySelector('[name="recipeName"]');
-            if (recipeTitle) recipeTitle.innerText = data.name || recipeId;
+            if (recipeTitle) recipeTitle.innerText = data.title || recipeId;
 
-            const stepsContainer = recipeDetailWindow.document.querySelector('#recipe-steps');
-            if (!stepsContainer) {
-                console.error('stepsContainer not found!');
-                return;
-            }
+            const stepsContainer = recipeDetailWindow.document.querySelector('#content');
 
-            let stepIndex = 1;
-            while (data[`step${stepIndex}`] !== undefined) {
-                const stepKey = `step${stepIndex}`;
-                const stepText = data[stepKey];
-                if (stepText) {
-                    const li = recipeDetailWindow.document.createElement('li');
-                    li.classList.add('step');
-                    li.textContent = stepText;
-                    stepsContainer.appendChild(li);
-                }
-                stepIndex++;
-            }
-
-            // 요리 단계가 없는 경우
-            if (stepsContainer.children.length === 0) {
+            if (stepsContainer) {
                 const li = recipeDetailWindow.document.createElement('li');
+                li.classList.add('step');
+                li.textContent = data.content;
+                stepsContainer.appendChild(li);
+            } else {
+                console.error('stepsContainer not found!');
+                const li = recipeDetailWindow.document.createElement('div');
                 li.textContent = "이 레시피에는 요리 단계가 없습니다.";
                 stepsContainer.appendChild(li);
+                return;
             }
         })
         .catch(error => {
