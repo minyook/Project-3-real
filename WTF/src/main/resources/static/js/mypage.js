@@ -1,165 +1,151 @@
-document.addEventListener("DOMContentLoaded", function () {
-    // 🔹 프로필 편집 팝업 기능
-    const popup = document.getElementById("profile-popup");
-    const overlay = document.getElementById("popup-overlay");
-    const editProfileBtn = document.querySelector(".edit-profile-btn");
-    const closePopup = document.getElementById("close-popup");
+import { collection, getDocs, doc, deleteDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 
-    // 팝업 열기
-    editProfileBtn.addEventListener("click", function (event) {
-        event.preventDefault(); // 기본 링크 동작 방지
-        popup.style.display = "block";
-        overlay.style.display = "block";
-    });
+// 🔹 Firebase 초기화
+const firebaseConfig = {
+    apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
+    authDomain: "project-9th-team3-eb188.firebaseapp.com",
+    projectId: "project-9th-team3-eb188",
+    storageBucket: "project-9th-team3-eb188.firebasestorage.app",
+    messagingSenderId: "682296446694",
+    appId: "1:682296446694:web:7dcededde4a7fa18857527",
+    measurementId: "G-Z5FR7WTXTB"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-    // 팝업 닫기
-    closePopup.addEventListener("click", function () {
-        popup.style.display = "none";
-        overlay.style.display = "none";
-    });
+// 🔹 로그인한 사용자의 UID 가져오기
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        window.userId = user.uid;
+        console.log("✅ 로그인한 사용자 UID:", window.userId);
+        loadSavedIngredients();
+        displayRecipes();
+    } else {
+        console.error("❌ 로그인한 사용자가 없습니다.");
+    }
+});
 
-    // 오버레이 클릭 시 팝업 닫기
-    overlay.addEventListener("click", function () {
-        popup.style.display = "none";
-        overlay.style.display = "none";
-    });
+// 🔹 저장된 레시피 불러오기
+async function displayRecipes() {
+    if (!window.userId) return;
 
-    // 🔹 저장된 레시피 불러오기 및 삭제 기능 추가
-//    let recipes = JSON.parse(localStorage.getItem("recipes")) || [];
     const recipesContainer = document.querySelector(".recipes-section");
-
-    // 기존 "나의 레시피" 제목 유지
     recipesContainer.innerHTML = "<h3>나의 레시피</h3>";
 
-    function displayRecipes() {
-        // 레시피 목록 초기화 후 다시 그리기
-        recipesContainer.innerHTML = "<h3>나의 레시피</h3>";
+    try {
+        const response = await fetch('/getRecipe');
+        const recipes = await response.json();
 
-        fetch(`/getRecipe`, {
-            method: 'GET'
-        })
-        .then(response => response.json())
-        .then(recipes => {
-            if (recipes.length > 0) {
-                recipes.forEach((recipe) => {
-                    const recipeCard = document.createElement("div");
-                    recipeCard.classList.add("recipe-card");
+        recipes.forEach((recipe) => {
+            const recipeCard = document.createElement("div");
+            recipeCard.classList.add("recipe-card");
 
-                    recipeCard.innerHTML = `
-                      <p name="recipeName">${recipe}</p>
-                      <button class="view-recipe-btn" data-comments="${recipe}">상세 보기</button>
-                      <button class="delete-recipe-btn" data-comments="${recipe}">삭제</button>
-                    `;
-                    recipesContainer.appendChild(recipeCard);
-                });
-            }
-
-            // 모든 삭제 버튼에 이벤트 추가
-            document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
-                button.addEventListener("click", function () {
-                    const data = this.getAttribute("data-comments");
-                    deleteRecipe(data);
-                });
-            });
-
-            // 모든 상세 보기 버튼에 이벤트 추가
-            document.querySelectorAll(".view-recipe-btn").forEach((button) => {
-                button.addEventListener("click", function () {
-                    const data = this.getAttribute("data-comments");
-                    showRecipeDetail(data);
-                });
-            });
-        })
-        .catch(error => {
-            console.error("Error fetching recipe data:", error);
+            recipeCard.innerHTML = `
+                <p name="recipeName">${recipe}</p>
+                <button class="view-recipe-btn" data-id="${recipe}">상세 보기</button>
+                <button class="delete-recipe-btn" data-id="${recipe}">삭제</button>
+            `;
+            recipesContainer.appendChild(recipeCard);
         });
+
+        // 🔹 상세 보기 버튼 이벤트 추가
+        document.querySelectorAll(".view-recipe-btn").forEach((button) => {
+            button.addEventListener("click", function () {
+                const recipeId = this.getAttribute("data-id");
+                showRecipeDetail(recipeId);
+            });
+        });
+
+        // 🔹 삭제 버튼 이벤트 추가
+        document.querySelectorAll(".delete-recipe-btn").forEach((button) => {
+            button.addEventListener("click", function () {
+                const recipeId = this.getAttribute("data-id");
+                deleteRecipe(recipeId);
+            });
+        });
+
+    } catch (error) {
+        console.error("❌ 레시피 불러오기 실패:", error);
     }
+}
 
-    // 🔹 레시피 삭제 함수
-    function deleteRecipe(data) {
-        fetch(`/deleteRecipe/${data}`, {
-            method: 'DELETE'
-        })
-        .then(response => response.text())
-        .then(deletedRecipe => {
-            console.log(`삭제된 레시피명: ${deletedRecipe}`);
-        })
-        .catch(error => console.error("삭제 중 오류 발생:", error));
-
-        window.location.href = "mypage"
+// 🔹 레시피 삭제
+async function deleteRecipe(recipeId) {
+    try {
+        await fetch(`/deleteRecipe/${recipeId}`, { method: 'DELETE' });
+        console.log("🗑️ 레시피 삭제 완료:", recipeId);
+        displayRecipes(); // 삭제 후 리스트 다시 불러오기
+    } catch (error) {
+        console.error("❌ 레시피 삭제 실패:", error);
     }
+}
 
+// 🔹 레시피 상세 보기
+function showRecipeDetail(recipeId) {
+    const recipeDetailWindow = window.open(
+        "",
+        "레시피 상세보기",
+        "width=900,height=700"
+    );
 
-    // 🔹 레시피 상세보기 함수
-    function showRecipeDetail(data) {
-        const recipeDetailWindow = window.open(
-            "",
-            "레시피 상세보기",
-            "width=900,height=700"
-        );
+    recipeDetailWindow.document.write(`
+    <html lang="ko">
+      <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title name="recipeName"></title>
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          }
+          h2 {
+            text-align: center;
+          }
+          .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+          }
+          ol {
+            counter-reset: step-counter;
+            list-style: none;
+            padding-left: 0;
+          }
+          ol li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+          }
+          ol li::before {
+            content: counter(step-counter) ".   ";
+            font-weight: bold;
+            color: #000;
+          }
+        </style>
+      </head>
+      <body>
+        <h2 name="recipeName"></h2>
+        <h3>요리 순서</h3>
+        <ol id="recipe-steps"></ol>
+      </body>
+    </html>
+  `);
 
-        recipeDetailWindow.document.write(`
-        <html lang="ko">
-          <head>
-            <meta charset="UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-            <title name="recipeName"></title>
-            <style>
-              body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-              }
-              h2 {
-                text-align: center;
-              }
-              .step {
-                display: flex;
-                align-items: center;
-                margin-bottom: 20px;
-              }
-              .step img {
-                max-width: 200px;
-                margin-left: 20px;
-              }
-              .step-text {
-                flex: 1;
-                text-align: left;
-              }
-              ol {
-                counter-reset: step-counter;
-                list-style: none;
-                padding-left: 0;
-              }
-              ol li {
-                counter-increment: step-counter;
-                margin-bottom: 15px;
-              }
-              ol li::before {
-                content: counter(step-counter) ".   ";
-                font-weight: bold;
-                color: #000;
-              }
-            </style>
-          </head>
-          <body>
-            <h2 name="recipeName"></h2>
-            <h3>요리 순서</h3>
-            <ol id="recipe-steps"></ol>
-          </body>
-        </html>
-      `);
-
-        fetch(`/showRecipeDetail/${data}`, {
-            method: 'GET'
-        })
+    fetch(`/showRecipeDetail/${recipeId}`, {
+        method: 'GET'
+    })
         .then(response => response.json())
         .then(data => {
             console.log(data);
             setTimeout(() => {
                 const recipeTitle = recipeDetailWindow.document.querySelector('[name="recipeName"]');
+                if (recipeTitle) recipeTitle.innerText = recipeId;
 
                 const stepsContainer = recipeDetailWindow.document.querySelector('#recipe-steps');
                 if (!stepsContainer) {
@@ -182,8 +168,51 @@ document.addEventListener("DOMContentLoaded", function () {
         .catch(error => {
             console.error(error);
         });
-    }
+}
 
-    // 페이지 로드 시 레시피 표시
-    displayRecipes();
+// 🔹 Firestore에서 냉장고 재료 불러오기
+async function loadSavedIngredients() {
+    if (!window.userId) return;
+
+    const ingredientsContainer = document.getElementById("savedIngredientsContainer");
+    const noIngredientsMessage = document.getElementById("noIngredientsMessage");
+
+    try {
+        const querySnapshot = await getDocs(collection(db, `users/${window.userId}/ingredients`));
+        ingredientsContainer.innerHTML = "";
+
+        if (querySnapshot.empty) {
+            if (noIngredientsMessage) noIngredientsMessage.style.display = "block";
+            return;
+        }
+
+        if (noIngredientsMessage) noIngredientsMessage.style.display = "none";
+
+        querySnapshot.forEach((docSnapshot) => {
+            const ingredientData = docSnapshot.data();
+            const ingredientCard = document.createElement("div");
+            ingredientCard.classList.add("recipe-card");
+            ingredientCard.innerHTML = `
+                <p>${ingredientData.name || "이름 없음"}</p>
+                <button class="delete-ingredient-btn" data-id="${docSnapshot.id}">삭제</button>
+            `;
+            ingredientsContainer.appendChild(ingredientCard);
+        });
+
+        document.querySelectorAll(".delete-ingredient-btn").forEach((button) => {
+            button.addEventListener("click", function () {
+                deleteIngredient(this.getAttribute("data-id"));
+            });
+        });
+    } catch (error) {
+        console.error("❌ 재료 불러오기 실패:", error);
+    }
+}
+
+// 🔹 페이지 로드 시 실행
+document.addEventListener("DOMContentLoaded", () => {
+    if (window.userId) {
+        loadSavedIngredients();
+        displayRecipes();
+    }
 });

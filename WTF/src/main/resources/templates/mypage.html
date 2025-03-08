@@ -119,8 +119,11 @@
 
             <div class="saved-recipes-section">
                 <h3>냉장고 재료</h3>
-
+                <div id="savedIngredientsContainer"></div>
+                <p id="noIngredientsMessage" style="display: none; color: gray;">저장된 재료가 없습니다.</p>
             </div>
+
+
         </div>
     </div>
 </div>
@@ -154,28 +157,33 @@
     </div>
 </div>
 
-<script src="/js/mypage.js"></script>
-<script src="/js/edit_profile.js"></script>
-<script type="module" src="/js/main.js"></script>
-<!-- firebase 연결 -->
 <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-analytics.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
-      authDomain: "project-9th-team3-eb188.firebaseapp.com",
-      projectId: "project-9th-team3-eb188",
-      storageBucket: "project-9th-team3-eb188.firebasestorage.app",
-      messagingSenderId: "682296446694",
-      appId: "1:682296446694:web:7dcededde4a7fa18857527",
-      measurementId: "G-Z5FR7WTXTB"
+        apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
+        authDomain: "project-9th-team3-eb188.firebaseapp.com",
+        projectId: "project-9th-team3-eb188",
+        storageBucket: "project-9th-team3-eb188.firebasestorage.app",
+        messagingSenderId: "682296446694",
+        appId: "1:682296446694:web:7dcededde4a7fa18857527",
+        measurementId: "G-Z5FR7WTXTB"
     };
 
-    // Initialize Firebase
+    // Firebase 초기화
     const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
+    const db = getFirestore(app);
+
+    // Firestore를 전역 변수로 등록
+    window.db = db;
 </script>
+
+
+<script type = "module" src="/js/mypage.js"></script>
+<script src="/js/edit_profile.js"></script>
+<script type="module" src="/js/main.js"></script>
+
+
 </body>
 </html>
