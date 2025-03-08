@@ -1,5 +1,30 @@
 // Firestore SDK 가져오기
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { collection, query, where, getDocs, doc, setDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+// 🔹 Firebase 초기화
+const firebaseConfig = {
+    apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
+    authDomain: "project-9th-team3-eb188.firebaseapp.com",
+    projectId: "project-9th-team3-eb188",
+    storageBucket: "project-9th-team3-eb188.firebasestorage.app",
+    messagingSenderId: "682296446694",
+    appId: "1:682296446694:web:7dcededde4a7fa18857527",
+    measurementId: "G-Z5FR7WTXTB"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// 🔹 로그인한 사용자의 UID 가져오기
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        window.userId = user.uid;
+    } else {
+        console.error("❌ 로그인한 사용자가 없습니다.");
+    }
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("searchButton");
@@ -100,17 +125,42 @@ async function fetchRecipesFromGemini(ingredients) {
 // 🔹 **레시피 Firestore에 저장**
 async function saveRecipe() {
     let recipeText = document.getElementById("recipeContent").innerText;
+    let recipeTitle = document.getElementById("ingredientInput").value + "에 관련된 레시피";
 
     if (recipeText.trim() === "AI가 추천할 레시피가 여기에 표시됩니다.") {
         alert("저장할 레시피가 없습니다.");
         return;
     }
 
+    // 중복되는 레시피명 찾는 코드
+    const recipesRef = collection(window.db, `users/${window.userId}/recipes`);
+    const q = query(recipesRef, where("title", "==", recipeTitle));
+    const querySnapshot = await getDocs(q);
+
+    if (!querySnapshot.empty) {
+        let newTitle = recipeTitle;
+        let counter = 1;
+
+        // 중복되는 제목을 찾을 때까지 반복
+        while (true) {
+            const newQuery = query(recipesRef, where("title", "==", newTitle));
+            const newQuerySnapshot = await getDocs(newQuery);
+
+            if (newQuerySnapshot.empty) {
+                break;
+            }
+            newTitle = `${recipeTitle}${counter}`;
+            counter++;
+        }
+        recipeTitle = newTitle;
+    }
+
     try {
-        // Firestore "recipes" 컬렉션에 새 레시피 저장
-        await addDoc(collection(window.db, "recipes"), {
+        await setDoc(doc(window.db, `users/${window.userId}/recipes/${recipeTitle}`), {
             content: recipeText,
-            timestamp: new Date()
+            timestamp: new Date(),
+            liked: false,
+            title: recipeTitle
         });
 
         alert("레시피가 Firestore에 저장되었습니다! ❤️");

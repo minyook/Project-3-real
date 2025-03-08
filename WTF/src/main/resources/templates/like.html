@@ -95,28 +95,6 @@
     // Firestore를 전역 변수로 설정 (JS 파일에서 사용 가능)
     window.db = db;
 </script>
-
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let savedRecipes = JSON.parse(localStorage.getItem("savedRecipes")) || [];
-        let recipeList = document.getElementById("recipeList");
-
-        if (savedRecipes.length === 0) {
-            recipeList.innerHTML = "<p class='text-gray-500'>저장된 레시피가 없습니다.</p>";
-        } else {
-            savedRecipes.forEach(recipe => {
-                let listItem = document.createElement("li");
-                listItem.className = "p-4 bg-gray-100 rounded-lg shadow-md";
-                listItem.innerHTML = recipe;
-                recipeList.appendChild(listItem);
-            });
-        }
-    });
-</script>
-
-
-
 <script type="module" src="/js/main.js"></script>
 <script type="module" src="/js/like.js"></script>
 </body>

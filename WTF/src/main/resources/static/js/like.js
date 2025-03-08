@@ -1,4 +1,30 @@
-import { collection, getDocs, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+// Firestore SDK 가져오기
+import { collection, query, getDocs, doc, updateDoc, getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+
+// 🔹 Firebase 초기화
+const firebaseConfig = {
+    apiKey: "AIzaSyC2odyQB0r5loPTqmqHdnkoM-JDxdilNpk",
+    authDomain: "project-9th-team3-eb188.firebaseapp.com",
+    projectId: "project-9th-team3-eb188",
+    storageBucket: "project-9th-team3-eb188.firebasestorage.app",
+    messagingSenderId: "682296446694",
+    appId: "1:682296446694:web:7dcededde4a7fa18857527",
+    measurementId: "G-Z5FR7WTXTB"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        window.userId = user.uid;
+        loadSavedRecipes();
+    } else {
+        console.error("❌ 로그인한 사용자가 없습니다.");
+    }
+});
 
 const GEMINI_API_KEY = "api key 추가해주세용"; // 🔥 API 키 보안 유지
 let showOnlyLiked = false; // 🔥 현재 필터 상태 (찜한 목록만 보기 여부)
@@ -14,8 +40,7 @@ async function loadSavedRecipes() {
     }
 
     try {
-        const querySnapshot = await getDocs(collection(window.db, "recipes"));
-
+        const querySnapshot = await getDocs(collection(db, "users", userId, "recipes"));
         recipesContainer.innerHTML = ""; // 기존 내용 초기화
 
         if (querySnapshot.empty) {
@@ -27,6 +52,8 @@ async function loadSavedRecipes() {
 
         querySnapshot.forEach(async (docSnapshot) => {
             const recipeData = docSnapshot.data();
+            console.log(recipeData);
+
             let menuTitle = recipeData.title || "레시피"; // Firestore에 제목이 없으면 기본값 설정
             const recipeContent = recipeData.content;
             const isLiked = recipeData.liked || false;
@@ -37,7 +64,7 @@ async function loadSavedRecipes() {
             // 🔹 Firestore에 저장된 제목이 없으면 AI를 이용해 자동 추출
             if (!recipeData.title) {
                 menuTitle = await extractRecipeTitleAI(recipeContent);
-                await updateDoc(doc(window.db, "recipes", docSnapshot.id), { title: menuTitle });
+                await updateDoc(doc(window.db, `users/${userId}/recipes`, docSnapshot.id), { title: menuTitle });
             }
 
             // 🔹 레시피 카드 생성
@@ -100,7 +127,7 @@ window.toggleLikedItems = function () {
 
 // 🔹 찜 버튼 클릭 시 Firestore 업데이트 (찜 / 취소)
 window.toggleLike = async function (docId, heartIcon) {
-    const recipeRef = doc(window.db, "recipes", docId);
+    const recipeRef = doc(db, "users", userId, "recipes", docId);
     const isLiked = heartIcon.classList.contains("active");
 
     try {
